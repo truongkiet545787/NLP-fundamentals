@@ -25,6 +25,18 @@ Hiểu cách máy tính biểu diễn từ ngữ dưới dạng các vector số
   * **TensorBoard Projector:** Xuất trọng số Embedding (`checkpoint`) và file nhãn (`metadata.tsv`) để chuẩn bị trực quan hóa không gian từ vựng 3D.
   * **Trực quan hóa thực tế:** Hướng dẫn nén logs và sử dụng công cụ online để xoay, thu phóng và phân tích khoảng cách tương quan giữa các từ.
 
+### 3. [FastText_Glove_IMDB-dataset.ipynb](FastText_Glove_IMDB-dataset.ipynb) - So sánh FastText & Mạng LSTM với Pre-trained GloVe Embeddings
+Thực hành tích hợp các mô hình Embedding mạnh mẽ phổ biến (FastText của Facebook và GloVe của Stanford) vào bài toán phân loại cảm xúc IMDB.
+* **Kiến thức cốt lõi:**
+  * **FastText (Facebook AI):** Chuẩn bị dữ liệu đầu vào định dạng đặc biệt (`__label__positive <text>`), tiền xử lý loại bỏ dấu xuống dòng `\n` và rác HTML `<br />`, huấn luyện mô hình phân loại cực nhanh với n-gram (bigram) và lưu mô hình nhị phân `.bin`.
+  * **Pre-trained GloVe (Stanford):** Cách tải và giải nén bộ từ điển GloVe bằng Python, lập **Ma trận nhúng (Embedding Matrix)** ánh xạ các vector GloVe 300d tương ứng vào từ điển của `TextVectorization` làm trọng số khởi đầu.
+  * **Mô hình LSTM Keras:** So sánh hiệu năng và tốc độ của 2 phương án:
+    * **Frozen Embedding (`trainable=False`):** Đóng băng trọng số GloVe để tránh quá khớp (overfitting).
+    * **Fine-tuned Embedding (`trainable=True`):** Cập nhật, tinh chỉnh trọng số GloVe trong quá trình huấn luyện LSTM.
+  * **Vá lỗi & Tối ưu hóa:** 
+    * Kỹ thuật **Monkey Patching** giải quyết lỗi tương thích `ValueError: Unable to avoid copy...` giữa NumPy 2.x và thư viện FastText.
+    * Giải quyết lỗi thiếu Output Shape trong Keras 3 (`model.summary()`) bằng lớp `Input` tường minh.
+
 ---
 
 ## 📸 Giao Diện Trực Quan Hóa (Embedding Projector)
